@@ -14,9 +14,10 @@ public abstract class Moveable: MonoBehaviour
         if(_rigidBody == null) _rigidBody = GetComponent<Rigidbody>();
     }
 
-    public void Move(float speed)
+    public void Move(float speed, float sidewaysSpeed)
     {
-        Vector3 offset = Vector3.forward * (speed * Time.deltaTime);
-        _rigidBody.MovePosition(_rigidBody.position + offset);
+        Vector3 offset = Vector3.forward * (speed * Time.fixedDeltaTime);
+        offset += Vector3.left * (sidewaysSpeed * speed);
+        transform.position += offset;
     }
 }
