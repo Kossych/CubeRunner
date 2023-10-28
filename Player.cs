@@ -2,28 +2,29 @@ using UnityEngine;
 using System;
 using Unity.VisualScripting;
 
+[RequireComponent(typeof(PlayerAnimator))]
 public class Player : Moveable
 {
     [SerializeField] TowerOfCubes _towerOfCubes;
     [SerializeField] PlayerAnimator _animator;
-    public event Action CollisionEvent;
+    public event Action DieEvent;
     
-
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         if(_towerOfCubes == null) _towerOfCubes = GetComponentInParent<TowerOfCubes>();
     }
 
     public void SetToCube(Cube cube)
     {
         transform.position = cube.transform.position + Vector3.up * 0.5f;
+        transform.SetParent(cube.transform);
         _animator.IsJumping = true;
     }
 
     public void Die()
     {
-
+        _animator.DisableAnimation();
+        DieEvent?.Invoke();
     }
 
     public void GameStateChangedHandle(GameStates gameState)
@@ -38,13 +39,12 @@ public class Player : Moveable
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.TryGetComponent(out Cube _))
+        if (collision.gameObject.TryGetComponent(out Wall _))
         {
-           return;
+           GameStateController.Instance.CurrentState = GameStates.Fail;
         }
-        GameStateController.Instance.CurrentState = GameStates.Fail;
     }
 
     public void OnEnable()

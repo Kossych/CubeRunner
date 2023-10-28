@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-1)]
 public class GameStateController: MonoBehaviour
@@ -28,8 +27,12 @@ public class GameStateController: MonoBehaviour
 
     public void Start()
     {
-        Debug.Log("2");
         CurrentState = GameStates.Start;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 }
 

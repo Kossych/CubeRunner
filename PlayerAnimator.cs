@@ -16,4 +16,9 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
     }
+
+    public void DisableAnimation()
+    {
+        _animator.enabled = false;
+    }
 }

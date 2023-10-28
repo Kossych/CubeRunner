@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(BoxCollider))]
 public class TowerOfCubes : MonoBehaviour
 {
     [Header("References")]
@@ -33,19 +34,21 @@ public class TowerOfCubes : MonoBehaviour
     public void Start()
     {
         SetCube(_initializeCube);
+        _player.transform.SetParent(_initializeCube.transform);
     }
 
     public void FixedUpdate()
     {
         if(!_isActive) return;
+        if(_cubes.Count == 0) _player.Move(_speed, _input.Dx);
         _cubes.ForEach(cube => cube.Move(_speed, _input.Dx));
-        _player.Move(_speed, _input.Dx);
     }
 
     public void AddCube(Cube cube)
     {
         cube.transform.SetParent(_cubeHolder);
         cube.transform.position = _cubes[^1].transform.position + Vector3.up; 
+
         SetCube(cube);
         _cubeStackEffect.Play();
         CubeAdditionEvent?.Invoke(cube);
@@ -56,8 +59,8 @@ public class TowerOfCubes : MonoBehaviour
         _cubes.Add(cube);
         cube.IsAttached = true;
 
-        cube.WallCollisionEvent += RemoveCube;
         cube.CubeCollisionEvent += AddCube;
+        cube.WallCollisionEvent += RemoveCube;
     }
 
     public void RemoveCube(Cube cube)
@@ -65,14 +68,13 @@ public class TowerOfCubes : MonoBehaviour
         cube.transform.SetParent(null);
         _cubes.Remove(cube);
 
-        cube.WallCollisionEvent -= RemoveCube;
         cube.CubeCollisionEvent -= AddCube;
+        cube.WallCollisionEvent -= RemoveCube;
         CubeRemovalEvent?.Invoke(cube);
     }
 
     public void GameStateChangedHandle(GameStates gameState)
     {
-        Debug.Log(gameState);
         if(gameState == GameStates.Play)
         {
             _isActive = true;
