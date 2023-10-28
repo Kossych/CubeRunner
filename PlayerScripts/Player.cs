@@ -3,7 +3,7 @@ using System;
 using Unity.VisualScripting;
 
 [RequireComponent(typeof(PlayerAnimator))]
-public class Player : Moveable
+public class Player : MonoBehaviour
 {
     [SerializeField] TowerOfCubes _towerOfCubes;
     [SerializeField] PlayerAnimator _animator;

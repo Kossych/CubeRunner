@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(BoxCollider))]
 public class TowerOfCubes : MonoBehaviour
 {
     [Header("References")]
@@ -17,8 +16,10 @@ public class TowerOfCubes : MonoBehaviour
     private bool _isActive = false;
 
     [Header("Parameters")]
-    [Range(3, 8)]
+    [Range(5, 10)]
     [SerializeField] private float _speed;
+    [Range(1f, 2.5f)]
+    [SerializeField] private float _levelFieldX;
 
     public event Action<Cube> CubeAdditionEvent;
     public event Action<Cube> CubeRemovalEvent;
@@ -40,18 +41,17 @@ public class TowerOfCubes : MonoBehaviour
     public void FixedUpdate()
     {
         if(!_isActive) return;
-        //if(_cubes.Count == 0) _player.Move(_speed, _input.Dx);
-        //_cubes.ForEach(cube => cube.Move(_speed, _input.Dx));
         Move(_speed, _input.Dx);
     }
 
     public void Move(float speed, float sidewaysSpeed)
     {
         Vector3 offset = Vector3.forward * (speed * Time.fixedDeltaTime);
-        offset += Vector3.left * (sidewaysSpeed * speed);
-        float offsetz = offset.z;
+        offset += Vector3.left * (sidewaysSpeed * _levelFieldX * speed * Time.fixedDeltaTime);
+        offset.x = MathF.Abs(transform.position.x + offset.x) < _levelFieldX ? offset.x : 0;
         transform.position += offset;
-    }
+
+    }  
 
     public void AddCube(Cube cube)
     {

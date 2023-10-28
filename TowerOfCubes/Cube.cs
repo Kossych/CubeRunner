@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Threading.Tasks;
 
-public class Cube : Moveable
+public class Cube : MonoBehaviour
 {
     [HideInInspector] public bool IsAttached = false;
     public event Action<Cube> CubeCollisionEvent;

@@ -3,11 +3,14 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     [SerializeField] private float _dx = 0;
+    [Range(10, 25)]
+    [SerializeField] private float _dxCoefficient;
     private Vector3 touchPosition;
     private int _screenWidth;
     [SerializeField] private bool _isActive;
 
     public float Dx => _dx;
+    public float DxCoefficient => _dxCoefficient;
 
     private void Awake()
     {
@@ -28,7 +31,7 @@ public class InputController : MonoBehaviour
                 break;
             case TouchPhase.Moved:
                 Vector3 newTouchPosition = touch.position;
-                _dx = (touchPosition.x - newTouchPosition.x) / _screenWidth;
+                _dx = (touchPosition.x - newTouchPosition.x) * _dxCoefficient / _screenWidth;
                 touchPosition = newTouchPosition;
                 break;
             case TouchPhase.Stationary:
