@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using Unity.VisualScripting;
 
-[RequireComponent(typeof(PlayerAnimator))]
 public class Player : MonoBehaviour
 {
     [SerializeField] TowerOfCubes _towerOfCubes;
@@ -18,7 +17,7 @@ public class Player : MonoBehaviour
     public void SetToCube(Cube cube)
     {
         transform.position = cube.transform.position + Vector3.up * 0.5f;
-        transform.SetParent(cube.transform);
+        //transform.SetParent(cube.transform);
         _parent = cube;
         _animator.IsJumping = true;
     }
@@ -26,7 +25,7 @@ public class Player : MonoBehaviour
     public void RemoveSetToCube(Cube cube)
     {
         if(_parent != cube) return;
-        transform.SetParent(_towerOfCubes.transform);
+        //transform.SetParent(_towerOfCubes.transform);
     }
 
     public void Die()
@@ -47,11 +46,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider collision)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collision.CompareTag("Wall"))
+        if (collision.gameObject.TryGetComponent(out Wall _))
         {
-           GameStateController.Instance.CurrentState = GameStates.Fail;
+            GameStateController.Instance.CurrentState = GameStates.Fail;
         }
     }
 

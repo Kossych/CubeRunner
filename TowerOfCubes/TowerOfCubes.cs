@@ -54,6 +54,7 @@ public class TowerOfCubes : MonoBehaviour
     {
         cube.transform.SetParent(null);
         _cubes.Remove(cube);
+        cube.Delete();
 
         cube.CubeCollisionEvent -= AddCube;
         cube.WallCollisionEvent -= RemoveCube;

@@ -18,7 +18,7 @@ public class Cube : MonoBehaviour
         if (collider.gameObject.TryGetComponent(out Wall wall))
         {
             WallCollisionEvent?.Invoke(this);
-            Delete();
+
         }
     }
 

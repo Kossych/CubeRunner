@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Player))]
 public class RagdollController : MonoBehaviour
 {
     [SerializeField] private List<Rigidbody> _ragdollElements = new();
@@ -11,7 +10,7 @@ public class RagdollController : MonoBehaviour
 
     private void Awake()
     {
-        if(_player == null) _player = GetComponent<Player>();
+        if(_player == null) _player = GetComponentInParent<Player>();
         if (_ragdollElements.Count == 0) _ragdollElements = GetComponentsInChildren<Rigidbody>().ToList();
         DisableRagdoll();
     }
