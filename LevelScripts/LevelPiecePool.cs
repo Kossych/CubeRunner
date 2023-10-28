@@ -18,7 +18,7 @@ public class LevelPiecePool : MonoBehaviour
 
     public LevelPiece GetRandomLevelPiece()
     {
-        return _pool[UnityEngine.Random.Range(0,_pool.Count - 1)];
+        return _pool[UnityEngine.Random.Range(0,_pool.Count)];
     }
     
 }

@@ -7,6 +7,7 @@ public class Player : Moveable
 {
     [SerializeField] TowerOfCubes _towerOfCubes;
     [SerializeField] PlayerAnimator _animator;
+    private Cube _parent;
     public event Action DieEvent;
     
     protected void Awake()
@@ -18,7 +19,14 @@ public class Player : Moveable
     {
         transform.position = cube.transform.position + Vector3.up * 0.5f;
         transform.SetParent(cube.transform);
+        _parent = cube;
         _animator.IsJumping = true;
+    }
+
+    public void RemoveSetToCube(Cube cube)
+    {
+        if(_parent != cube) return;
+        transform.SetParent(_towerOfCubes.transform);
     }
 
     public void Die()
@@ -41,7 +49,7 @@ public class Player : Moveable
 
     public void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.TryGetComponent(out Wall _))
+        if (collision.CompareTag("Wall"))
         {
            GameStateController.Instance.CurrentState = GameStates.Fail;
         }
@@ -50,12 +58,14 @@ public class Player : Moveable
     public void OnEnable()
     {
         _towerOfCubes.CubeAdditionEvent += SetToCube;
+        _towerOfCubes.CubeRemovalEvent += RemoveSetToCube;
         GameStateController.Instance.GameStateChangedEvent += GameStateChangedHandle;
     }
 
     public void OnDisable()
     {
         _towerOfCubes.CubeAdditionEvent -= SetToCube;
+        _towerOfCubes.CubeRemovalEvent -= RemoveSetToCube;
         GameStateController.Instance.GameStateChangedEvent -= GameStateChangedHandle;
     }
 }

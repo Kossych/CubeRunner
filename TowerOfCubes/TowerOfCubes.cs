@@ -34,14 +34,23 @@ public class TowerOfCubes : MonoBehaviour
     public void Start()
     {
         SetCube(_initializeCube);
-        _player.transform.SetParent(_initializeCube.transform);
+        _player.SetToCube(_initializeCube);
     }
 
     public void FixedUpdate()
     {
         if(!_isActive) return;
-        if(_cubes.Count == 0) _player.Move(_speed, _input.Dx);
-        _cubes.ForEach(cube => cube.Move(_speed, _input.Dx));
+        //if(_cubes.Count == 0) _player.Move(_speed, _input.Dx);
+        //_cubes.ForEach(cube => cube.Move(_speed, _input.Dx));
+        Move(_speed, _input.Dx);
+    }
+
+    public void Move(float speed, float sidewaysSpeed)
+    {
+        Vector3 offset = Vector3.forward * (speed * Time.fixedDeltaTime);
+        offset += Vector3.left * (sidewaysSpeed * speed);
+        float offsetz = offset.z;
+        transform.position += offset;
     }
 
     public void AddCube(Cube cube)

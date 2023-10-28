@@ -34,6 +34,11 @@ public class GameStateController: MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void OnApplicationPause()
+    {
+        CurrentState = GameStates.Pause;
+    }
 }
 
 public enum GameStates
