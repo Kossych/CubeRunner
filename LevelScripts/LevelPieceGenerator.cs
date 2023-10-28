@@ -13,6 +13,8 @@ public class LevelPieceGenerator : MonoBehaviour
     [SerializeField] private int _maxCountLevelPieces;
     private Vector3 lastPosition;
 
+    public event Action SpawnLevelPieceEvent;
+
     public void Awake()
     {
         if(_startedLevelPiece == null) _startedLevelPiece = GetComponentInChildren<LevelPiece>();
@@ -36,6 +38,7 @@ public class LevelPieceGenerator : MonoBehaviour
         LevelPiece lastLevel = _levelPieces.Dequeue();
         lastPosition = lastLevel.transform.position;
         Destroy(lastLevel.gameObject);
+        SpawnLevelPieceEvent?.Invoke();
     }
 
     public void GenerateLevelPiece()
