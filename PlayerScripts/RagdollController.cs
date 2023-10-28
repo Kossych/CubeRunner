@@ -35,4 +35,9 @@ public class RagdollController : MonoBehaviour
     {
         _player.DieEvent += EnableRagdoll;
     }
+
+    public void OnDisable()
+    {
+        _player.DieEvent -= EnableRagdoll;
+    }
 }
