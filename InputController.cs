@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
@@ -23,24 +20,24 @@ public class InputController : MonoBehaviour
         if(Input.touchCount == 0) return;
         Touch touch = Input.GetTouch(0);
 
-        if(touch.phase == TouchPhase.Began)
+        switch(touch.phase)
         {
-            GameStateController.Instance.CurrentState = GameStates.Play;
-            touchPosition = touch.position;
-        }
-
-        if (touch.phase == TouchPhase.Moved)
-        {
-            Vector3 newTouchPosition = touch.position;
-            _dx = (touchPosition.x - newTouchPosition.x) / _screenWidth;
-            Debug.Log( newTouchPosition.x / _screenWidth);
-            touchPosition = newTouchPosition;
-        }
-
-        if(touch.phase == TouchPhase.Ended)
-        {
-            touchPosition = Vector3.zero;
-            _dx = 0;
+            case TouchPhase.Began:
+                GameStateController.Instance.CurrentState = GameStates.Play;
+                touchPosition = touch.position;
+                break;
+            case TouchPhase.Moved:
+                Vector3 newTouchPosition = touch.position;
+                _dx = (touchPosition.x - newTouchPosition.x) / _screenWidth;
+                touchPosition = newTouchPosition;
+                break;
+            case TouchPhase.Stationary:
+                _dx = 0;
+                break;
+            case TouchPhase.Ended:
+                touchPosition = Vector3.zero;
+                _dx = 0;
+                break;
         }
     }
 
