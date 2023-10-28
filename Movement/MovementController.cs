@@ -11,7 +11,7 @@ public class MovementController : MonoBehaviour
     [Header("Parameters")]
     [Range(5, 10)]
     [SerializeField] private float _speed;
-    [Range(30, 45)]
+    [Range(20, 30)]
     [SerializeField] private float _maxSpeed;
     [Range(0.3f, 1f)]
     [SerializeField] private float _increaseSpeedValue;

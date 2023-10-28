@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class Cube : MonoBehaviour
 {
@@ -8,13 +9,18 @@ public class Cube : MonoBehaviour
     public event Action<Cube> CubeCollisionEvent;
     public event Action<Cube> WallCollisionEvent;
 
-    public void OnTriggerEnter(Collider collider)
+    public void OnCollisionEnter(Collision collision)
     {
-        if (collider.gameObject.TryGetComponent(out Cube cube))
+        if (collision.gameObject.TryGetComponent(out Cube cube))
         {
             if (cube.IsAttached) return;
             CubeCollisionEvent?.Invoke(cube);
         }
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+
         if (collider.gameObject.TryGetComponent(out Wall wall))
         {
             WallCollisionEvent?.Invoke(this);

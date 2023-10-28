@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     public void SetToCube(Cube cube)
     {
-        transform.position = cube.transform.position + Vector3.up * 0.5f;
+        transform.position = cube.transform.position + Vector3.up * 0.51f;
         //transform.SetParent(cube.transform);
         _parent = cube;
         _animator.IsJumping = true;
