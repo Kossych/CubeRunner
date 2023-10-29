@@ -30,7 +30,7 @@ public class Cube : MonoBehaviour
 
     public async void Delete()
     {
-        await Task.Delay(TimeSpan.FromSeconds(1));
+        await Task.Delay(TimeSpan.FromSeconds(3));
         if(GameStateController.Instance.CurrentState != GameStates.Play) return;
         Destroy(gameObject);
     }
