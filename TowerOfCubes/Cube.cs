@@ -28,9 +28,9 @@ public class Cube : MonoBehaviour
         }
     }
 
-    public async void Delete()
+    public async void Delete(float timeToDelete = 3f)
     {
-        await Task.Delay(TimeSpan.FromSeconds(3));
+        await Task.Delay(TimeSpan.FromSeconds(timeToDelete));
         if(GameStateController.Instance.CurrentState != GameStates.Play) return;
         Destroy(gameObject);
     }

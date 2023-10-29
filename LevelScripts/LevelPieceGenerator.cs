@@ -8,6 +8,7 @@ public class LevelPieceGenerator : MonoBehaviour
 {
     [SerializeField] private Queue<LevelPiece> _levelPieces = new(4);
     [SerializeField] private LevelPiece _startedLevelPiece;
+    [SerializeField] private TowerOfCubes _towerOfCubes;
 
     [Range(3, 8)]
     [SerializeField] private int _maxCountLevelPieces;
@@ -48,5 +49,7 @@ public class LevelPieceGenerator : MonoBehaviour
         newLevelPiece.GenerateLevelPeaceEvent += OnGenerateLevelPiece;
         _levelPieces.Enqueue(newLevelPiece);
     }
+
+    
 
 }

@@ -34,8 +34,8 @@ public class MovementController : MonoBehaviour
     {
         Vector3 offset = Vector3.forward * (speed * Time.fixedDeltaTime);
         offset += Vector3.left * (sidewaysSpeed * _levelFieldX * speed * Time.fixedDeltaTime);
-        offset.x = MathF.Abs(transform.position.x + offset.x) < _levelFieldX ? offset.x : 0;
         transform.position += offset;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -_levelFieldX, _levelFieldX), transform.position.y, transform.position.z);
     } 
 
     public void IncreaseSpeed()

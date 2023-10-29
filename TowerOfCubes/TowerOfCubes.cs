@@ -16,6 +16,8 @@ public class TowerOfCubes : MonoBehaviour
     [SerializeField] private float _speed;
     [Range(1f, 2.5f)]
     [SerializeField] private float _levelFieldX;
+    [Range(8, 12)]
+    [SerializeField] private int _maxCubesCount;
 
     public event Action<Cube> CubeAdditionEvent;
     public event Action<Cube> CubeRemovalEvent;
@@ -38,13 +40,18 @@ public class TowerOfCubes : MonoBehaviour
         cube.transform.position = _cubes[^1].transform.position + Vector3.up; 
 
         SetCube(cube);
-        CubeAdditionEvent?.Invoke(cube);
+        CubeAdditionEvent?.Invoke(_cubes[^1]);
     }
 
     private void SetCube(Cube cube)
     {
-        _cubes.Add(cube);
         cube.IsAttached = true;
+        if(_cubes.Count == _maxCubesCount)
+        {
+            cube.Delete(0);
+            return;
+        }
+        _cubes.Add(cube);
 
         cube.CubeCollisionEvent += AddCube;
         cube.WallCollisionEvent += RemoveCube;
